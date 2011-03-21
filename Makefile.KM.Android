@@ -1,0 +1,119 @@
+include Rules.make
+
+OMAPES=INVALIDVAL
+
+.PHONY: all_km buildkernel
+.PHONY: clean_km cleankernelmodule
+.PHONY: help_km
+
+all_km: prepare_km buildkernel
+
+buildkernel:
+ifeq ($(OMAPES),3.x)
+	@echo "building the sgx kernel modules..."
+	@export KERNELDIR=$(KERNEL_INSTALL_DIR) && \
+		export PATH=$(CSTOOL_PATH):$(PATH) && \
+		export CROSS_COMPILE=$(CSTOOL_PREFIX) && \
+		export EURASIAROOT=$(EURASIAROOT) && \
+		export ANDROID_PRODUCT=zoom2 && \
+		export ANDROID_ROOT=$(ANDROID_ROOT) && \
+		export ARCH=arm && \
+		make -C $(GFX_KERNMOD_SRCPATH)/eurasiacon/build/linux/omap3430_android/kbuild KERNELDIR=$(KERNEL_INSTALL_DIR) TI_PLATFORM=omap3430 TARGET_PRODUCT=$(ANDROID_PRODUCT)
+	@echo "copying the sgx kernel modules to appropriate folder..."
+	@cp -rf $(GFX_KERNMOD_SRCPATH)/eurasiacon/binary_omap3430_android_release/pvrsrvkm.ko $(GFX_REL_ES3_LIB_SRCPATH_ANDROID)/. 
+	@cp -rf $(GFX_KERNMOD_SRCPATH)/eurasiacon/binary_omap3430_android_release/omaplfb.ko $(GFX_REL_ES3_LIB_SRCPATH_ANDROID)/. 
+
+else
+	@echo "building the sgx kernel modules..."
+	@export KERNELDIR=$(KERNEL_INSTALL_DIR) && \
+		export PATH=$(CSTOOL_PATH):$(PATH) && \
+		export CROSS_COMPILE=$(CSTOOL_PREFIX) && \
+		export EURASIAROOT=$(EURASIAROOT) && \
+		export ANDROID_PRODUCT=zoom3 && \
+		export ANDROID_ROOT=$(ANDROID_ROOT) && \
+		export ARCH=arm && \
+		make -C $(GFX_KERNMOD_SRCPATH)/eurasiacon/build/linux/omap3630_android/kbuild KERNELDIR=$(KERNEL_INSTALL_DIR) TI_PLATFORM=omap3630 TARGET_PRODUCT=$(ANDROID_PRODUCT)
+	@echo "copying the sgx kernel modules to appropriate folder..."
+ifeq ($(OMAPES),5.x)
+	@cp -rf $(GFX_KERNMOD_SRCPATH)/eurasiacon/binary_omap3630_android_release/pvrsrvkm.ko $(GFX_REL_ES5_LIB_SRCPATH_ANDROID)/. 
+	@cp -rf $(GFX_KERNMOD_SRCPATH)/eurasiacon/binary_omap3630_android_release/omaplfb.ko $(GFX_REL_ES5_LIB_SRCPATH_ANDROID)/. 
+endif
+ifeq ($(OMAPES),6.x)
+	@cp -rf $(GFX_KERNMOD_SRCPATH)/eurasiacon/binary_omap3630_android_release/pvrsrvkm.ko $(GFX_REL_ES6_LIB_SRCPATH_ANDROID)/. 
+	@cp -rf $(GFX_KERNMOD_SRCPATH)/eurasiacon/binary_omap3630_android_release/omaplfb.ko $(GFX_REL_ES6_LIB_SRCPATH_ANDROID)/. 
+endif
+endif
+prepare_km:
+
+############################### CLEAN ##################################
+clean_km: cleankernelmodule 
+
+cleankernelmodule:
+	@echo "cleaning the sgx kernel modules..."
+ifeq ($(OMAPES),3.x)
+	export KERNELDIR=$(KERNEL_INSTALL_DIR) && \
+		export PATH=$(CSTOOL_PATH):$(PATH) && \
+		export CROSS_COMPILE=$(CSTOOL_PREFIX) && \
+		export EURASIAROOT=$(EURASIAROOT) && \
+		export DISCIMAGE=$(ANDROID_DISCIMAGE) && \
+		export ANDROID_ROOT=$(ANDROID_ROOT) && \
+		export ANDROID_PRODUCT=zoom3 && make -C $(GFX_KERNMOD_SRCPATH)/eurasiacon/build/linux/omap3430_android/kbuild KERNELDIR=$(KERNEL_INSTALL_DIR) clean
+else
+	export KERNELDIR=$(KERNEL_INSTALL_DIR) && \
+		export PATH=$(CSTOOL_PATH):$(PATH) && \
+		export CROSS_COMPILE=$(CSTOOL_PREFIX) && \
+		export EURASIAROOT=$(EURASIAROOT) && \
+		export DISCIMAGE=$(ANDROID_DISCIMAGE) && \
+		export ANDROID_ROOT=$(ANDROID_ROOT) && \
+		export ANDROID_PRODUCT=zoom3 && make -C $(GFX_KERNMOD_SRCPATH)/eurasiacon/build/linux/omap3630_android/kbuild KERNELDIR=$(KERNEL_INSTALL_DIR) clean
+endif
+
+############################# INSTALL ##################################
+
+install_km:
+
+ ifeq ($(OMAPES),INVALIDVAL)
+	@echo "OMAPES value not specified (Mandatory value)..Exiting..."
+	exit 1
+ endif	
+ 
+#	@patch -p0 -d $(ANDROID_DISCIMAGE) < initrc.patch
+ifeq ($(OMAPES),2.x)
+	@cd $(GFX_REL_ES2_LIB_SRCPATH_ANDROID) && \
+	export DISCIMAGE=$(ANDROID_DISCIMAGE) && \
+	export ANDROID_ROOT=$(ANDROID_ROOT) && \
+	export ANDROID_PRODUCT=zoom3 && \
+		./install.sh --no-x --no-bcdevice
+
+  endif
+  ifeq ($(OMAPES),3.x)
+	@cd $(GFX_REL_ES3_LIB_SRCPATH_ANDROID) && \
+	export DISCIMAGE=$(ANDROID_DISCIMAGE) && \
+	export ANDROID_ROOT=$(ANDROID_ROOT) && \
+	export ANDROID_PRODUCT=zoom3 && \
+		./install.sh --no-x --no-bcdevice
+  endif
+  ifeq ($(OMAPES),5.x)
+	@cd $(GFX_REL_ES5_LIB_SRCPATH_ANDROID) && \
+	export DISCIMAGE=$(ANDROID_DISCIMAGE) && \
+	export ANDROID_ROOT=$(ANDROID_ROOT) && \
+	export ANDROID_PRODUCT=zoom3 && \
+		./install.sh --no-x --no-bcdevice
+  endif
+  ifeq ($(OMAPES),6.x)
+	@cd $(GFX_REL_ES6_LIB_SRCPATH_ANDROID) && \
+	export DISCIMAGE=$(ANDROID_DISCIMAGE) && \
+	export ANDROID_ROOT=$(ANDROID_ROOT) && \
+	export ANDROID_PRODUCT=zoom3 && \
+		./install.sh --no-x --no-bcdevice
+  endif
+############################# HELP ##################################
+
+help_km:
+	@echo ""
+	@echo "Usage (for build): make"
+	@echo "Usage (for install): make install OMAPES={2.x | 3.x | 5.x | 6.x}"
+	@echo "See online Graphics Getting Started Guide for further details."
+	@echo ""
+
+###########################################################################

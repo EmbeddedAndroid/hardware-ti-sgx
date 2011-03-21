@@ -1,0 +1,89 @@
+Release Notes for Android release 4.03.00.01
+
+Introduction:
+
+This release includes the Android graphics drivers for the OMAP35x|AM35x|AM/DM37x|AM389x family of chipsets. The Graphics SDK contains documentation, demo programs and tools.
+
+
+Important Note:
+
+AM/DM37x has been tested with 2.6.32 kernel. AM389x has been tested with 2.6.37 kernel
+Requirements, Pre-requisites and demo instructions
+
+For software setup and pre-requisites and other instructions, refer to the main pages at,
+
+OMAP35x_Graphics_SDK_Getting_Started_Guide
+Features in this release
+
+    * Support for SGX core revisions 1.2.5 (3730 ES5.0), 1.2.1 (3530 ES3.0), and 1.0.3 (3530 ES2.0)
+    * Updated IMG DDK version 1.5, that has improved Vector Graphics performance
+    * Support for AM389x with 2.6.37 Kernel on Gingerbread. 
+
+ Kernel, Toolchain used for validation
+
+AM35x/37x:
+
+    * Tested with Android 2.6.32 kernel - Froyo
+    * Android toolchain - Froyo
+    * Android filesystem - Froyo 
+
+AM389x:
+
+    * Tested with Android 2.6.37 kernel - Gingerbread
+    * Android toolchain - Gingerbread
+    * Android filesystem - Gingerbread 
+
+ What is supported
+ Khronos API support
+
+    * OpenGL ES 1.1
+    * OpenGL ES 2.0
+    * OpenVG 1.1 (Using CPU for tessellation)
+    * EGL
+    * Limited 2D acceleration via PVR2D API 
+
+ Window Systems
+
+Android Window system is supported.
+Extensions
+
+    * Refer to eglinfo output (run eglinfo on Android terminal prompt to see the list of extensions supported). 
+
+What is not supported
+
+    * Power Management features are not fully validated. 
+
+    * DVI output is not fully validated 
+
+    * Rotation features are not validated 
+
+    * Automatic SGX core version detection, and target side install are not supported due to the limited command set available on Android. 
+
+Additional Packages
+
+Benchmarking packages for SGX functionalities and APIs are available at,
+
+    * https://gforge.ti.com/gf/project/gleslayer/ 
+
+Fixed in this Release
+
+    * Build system to support different platforms viz. AM35x/37x/389x 
+
+Limitations/ Known Issues
+
+    * Active Power Management feature is not supported completely. 
+
+Installation and Usage
+
+Please look for detailed installation and usage instructions in the Getting Started Guide (Main page), as most of the instructions are similar.
+Contents
+
+The folders in the installed package contain binaries for several family of devices containing the SGX530 core. Brief description of these folders is below.
+}
+Graphics SDK folder contents 	Folder Name 	Description 	Used by
+1 	gfx_rel_es2.x_android 	Release binaries for platforms having SGX core revision 1.0.3 	(OMAP35x ES version 2.0) How to check?
+2 	gfx_rel_es3.x_android 	Release binaries for platforms having SGX core revision 1.2.1 	(OMAP35x ES version 3.1) How to check?
+3 	gfx_rel_es5.x_android 	Release binaries for platforms having SGX core revision 1.2.5 	(AM37xx/DM37xx) How to check?
+3 	gfx_rel_es6.x_android 	Release binaries for platforms having SGX core revision 1.2.5 	(AM389xx) How to check?
+4 	GFX_Linux_KM 	Source for Graphics Kernel Modules 	Contains kernel dependent code, changes depending on Linux kernel used
+5 	GFX_Linux_SDK 	Demos, Training courses, PVR Tools,classes and header files 	Used for building new applications (Available only in the SDK package, not in the BIN package) 
