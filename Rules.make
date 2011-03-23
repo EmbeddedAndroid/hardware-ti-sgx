@@ -4,9 +4,9 @@ PLATFORM=LinuxOMAP3
 
 ################# FIELDS MODIFIABLE BY THE USER ###############################
 #set home area HOME (relative location for all SDK operations)
-HOME=$(ANDROID_ROOT_DIR)/external/ti_android_sgx_sdk/SDK
+HOME=$(ANDROID_ROOT_DIR)/hardware/ti/sgx
 #Current Directory where Graphics SDK is installed
-GRAPHICS_INSTALL_DIR=$(ANDROID_ROOT_DIR)/external/ti_android_sgx_sdk/SDK
+GRAPHICS_INSTALL_DIR=$(ANDROID_ROOT_DIR)/hardware/ti/sgx
 #Android Specific
 #Path of Android Root FS
 ANDROID_ROOT=$(ANDROID_ROOT_DIR)/out/target/product/$(TARGET_PRODUCT)
