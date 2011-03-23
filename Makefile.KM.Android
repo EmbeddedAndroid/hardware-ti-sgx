@@ -48,6 +48,7 @@ prepare_km:
 ############################### CLEAN ##################################
 clean_km: cleankernelmodule 
 
+
 cleankernelmodule:
 	@echo "cleaning the sgx kernel modules..."
 ifeq ($(OMAPES),3.x)

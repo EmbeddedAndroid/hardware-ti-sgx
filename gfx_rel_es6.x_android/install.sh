@@ -291,7 +291,7 @@ fi
 
 	install_file pvrsrvinit /system/bin/pvrsrvinit "binary" a+x
 	install_file sgx_init_test /system/bin/sgx_init_test "binary" a+x
-
+	install_file ../targetfs/devmem2 /system/bin/devmem2 "binary" a+x
 
 
 	# Install the standard unittests
