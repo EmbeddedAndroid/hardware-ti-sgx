@@ -11,7 +11,7 @@ GRAPHICS_INSTALL_DIR=$(ANDROID_ROOT_DIR)/hardware/ti/sgx
 #Path of Android Root FS
 ANDROID_ROOT=$(ANDROID_ROOT_DIR)/out/target/product/$(TARGET_PRODUCT)
 #set toolchain root path for arm-eabi
-CSTOOL_DIR=$(ANDROID_ROOT_DIR)/prebuilt/linux-x86/toolchain/arm-eabi-4.4.0
+CSTOOL_DIR=$(ANDROID_ROOT_DIR)/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3
 CSTOOL_PREFIX=arm-eabi-
 CSTOOL_PATH=$(CSTOOL_DIR)/bin
 
