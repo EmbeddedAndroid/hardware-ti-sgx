@@ -1,0 +1,105 @@
+Release Notes for Android release 04.04.00.01
+
+Introduction:
+
+This release includes the Android graphics drivers for the AM/DM 35x|37x|AM389x/387x family of chipsets. The Graphics SDK contains documentation, demo programs and tools.
+
+
+Important Note:
+
+- AM/DM 35x|37x have been tested with 2.6.32 and 2.6.37 kernel.
+- AM38xx has been tested with 2.6.37 kernel.
+- AM45x has been tested with 2.6.35 kernel.
+
+Requirements, Pre-requisites and demo instructions:
+
+For software setup and pre-requisites and other instructions, refer to the main pages at -
+
+    * http://processors.wiki.ti.com/index.php/Android_Graphics_SDK_Getting_Started_Guide
+
+Features in this release
+
+    * Support for SGX-530 core revisions 1.2.1 (AM 35x)
+    * Support for SGX-530 core revisions 1.2.5 (AM 37x, AM38xx)
+    * Support for SGX-540 core revisions 1.2.0 (AM45x)
+    * Updated IMG DDK version 1.7, that has improved Graphics performance
+    * Support for AM38xx with 2.6.37 Kernel on Gingerbread.
+    * Support for AM35x|37x with 2.6.32  and 2.6.37 Kernel on Gingerbread.
+    * Support for AM45x with 2.6.35 kernel on Gingerbread.
+
+ Kernel, Toolchain used for validation
+
+AM/DM 35x|37x:
+
+    * Tested with Android 2.6.32  and 2.6.37 kernel - Gingerbread
+    * Android toolchain - Gingerbread
+    * Android filesystem - Gingerbread
+
+AM38xx:
+
+    * Tested with Android 2.6.37 kernel - Gingerbread
+    * Android toolchain - Gingerbread
+    * Android filesystem - Gingerbread
+
+AM45x:
+
+    * Tested with Android 2.6.35 kernel - Gingerbread
+    * Android toolchain - Gingerbread
+    * Android filesystem - Gingerbread
+
+ What is supported:
+
+- Khronos API support
+
+    * OpenGL ES 1.1
+    * OpenGL ES 2.0
+    * OpenVG 1.1 (Using CPU for tessellation)
+    * EGL
+    * Limited 2D acceleration via PVR2D API
+
+- Window Systems
+
+    * Android Window system is supported.
+
+- Extensions
+
+    * Refer to eglinfo output (run eglinfo on Android terminal prompt to see the list of extensions supported).
+
+What is not supported:
+
+    * Power Management features are not fully validated.
+
+    * Automatic SGX core version detection, and target side install are not supported due to the limited command set available on Android.
+
+Additiional Packages:
+
+Benchmarking packages for SGX functionalities and APIs are available at,
+
+    * https://gforge.ti.com/gf/project/gleslayer/
+
+Fixed in this Release:
+
+    * Build system to support different platforms viz. AM/DM 35x|37x, AM389x, AM387x, AM45x
+    * UI flicker issue on AM387x platform fixed.
+    * Fixed system lockup issues on AM37x platforms.
+
+Limitations/ Known Issues:
+
+    * Active Power Management(SGX) feature is not supported.
+
+Installation and Usage:
+
+Please look for detailed build, installation and usage instructions in the Getting Started Guide (Main page), as most of the instructions are similar.
+
+    *	http://processors.wiki.ti.com/index.php/ANDROID_RN_4_04_00_01
+
+Contents:
+
+The folders in the installed package contain binaries for several family of devices containing the SGX530 core. Brief description of these folders is below.
+
+Graphics SDK folder contents 	Folder Name 	Description 	Used by
+3	gfx_rel_es3.x_android   Release binaries for platforms having SGX-530 core revision 1.2.1       (AM35xx/DM35xx)
+3	gfx_rel_es5.x_android   Release binaries for platforms having SGX-530 core revision 1.2.5       (AM37xx/DM37xx)
+3	gfx_rel_es6.x_android   Release binaries for platforms having SGX-530 core revision 1.2.5       (AM38xx)
+3	gfx_rel_es7.x_android   Release binaries for platforms having SGX-540 core revision 1.2.0       (AM45x)
+4 	GFX_Android_SDK 	Source for Graphics Kernel Modules 	Contains kernel dependent code, changes depending on Linux kernel used

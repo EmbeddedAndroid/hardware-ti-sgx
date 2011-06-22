@@ -1,0 +1,63 @@
+SGX Embedded Systems DDK for Linux kernel.
+Copyright (C) Imagination Technologies Ltd. All rights reserved.
+======================================================================
+
+
+About
+-------------------------------------------
+
+This is the Imagination Technologies SGX DDK for the Linux kernel.
+Modified by the Texas Instruments to support Android on Rowboat devices.
+
+
+License
+-------------------------------------------
+
+You may use, distribute and copy this software under the terms of
+GNU General Public License version 2.
+
+The full GNU General Public License version 2 is included in this
+distribution in the file called "COPYING".
+
+
+Build and Install Instructions
+-------------------------------------------
+
+1) Edit Rules.make file and set appropriate paths
+
+2)  Build SDK Using -
+     $ make OMAPES=X.x (see make help for more info)
+
+     Ex:
+
+	$ make help
+
+	Usage (for build): make BUILD={debug | release} OMAPES={5.x | 6.x}
+	      Platform                                   OMAPES
+	      --------                                   ------
+	      AM35x                                       3.x
+	      OMAP37x/AM37x                               5.x
+	      816x(389x)/814x(387x)                       6.x
+	      OMAP4/AM45x                                 7.x
+	--> Specifying OMAPES is mandatory. BUILD=release by default
+
+	Usage (for install): make BUILD=(debug | release} OMAPES={3.x | 5.x | 6.x | 7.x} install
+	--> See online Graphics Getting Started Guide for further details.
+
+
+4) Install the SDK into File system using:
+     $ sudo make OMAPES=X.x install
+
+(This copies the *.so and *.ko to file system pointed to by TARGETFS_INSTALL_DIR variable).
+
+
+Note: In Case of AM389x platforms Syslink and VPSS modules need to be built.
+
+For more details please refer-  http://processors.wiki.ti.com/index.php/ANDROID_RN_4_03_01_00
+
+Contact information:
+-------------------------------------------
+
+http://arowboat.org/
+http://groups.google.com/group/rowboat
+http://e2e.ti.com/android

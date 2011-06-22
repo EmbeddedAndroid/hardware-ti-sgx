@@ -1,0 +1,147 @@
+include Rules.make
+
+OMAPES:=INVALIDVAL
+
+.PHONY: all_km buildkernel
+.PHONY: clean_km cleankernelmodule
+.PHONY: help_km
+
+all_km: buildkernel builddevmem2
+
+buildkernel:
+ 
+ifeq ($(OMAPES),3.x)
+	@echo "building the sgx kernel modules..."
+
+	@export KERNELDIR=$(KERNEL_INSTALL_DIR) && \
+		export PATH=$(CSTOOL_PATH):$(PATH) && \
+		export CROSS_COMPILE=$(CSTOOL_PREFIX) && \
+		export EURASIAROOT=$(EURASIAROOT) && \
+		export ANDROID_ROOT=$(ANDROID_ROOT) && \
+		export ARCH=arm && \
+		make -C $(GFX_KERNMOD_SRCPATH)/eurasiacon/build/linux2/omap_android KERNELDIR=$(KERNEL_INSTALL_DIR) TARGET_PRODUCT=$(TARGET_PRODUCT) SGXCORE=530 SGXCOREREV=121
+	@echo "copying the sgx kernel modules to $(GFX_REL_ES3_LIB_SRCPATH_ANDROID)"
+	@cp -rf $(GFX_KERNMOD_SRCPATH)/eurasiacon/binary2_omap_android_release/target/pvrsrvkm.ko $(GFX_REL_ES3_LIB_SRCPATH_ANDROID)/.
+	@cp -rf $(GFX_KERNMOD_SRCPATH)/eurasiacon/binary2_omap_android_release/target/omaplfb.ko $(GFX_REL_ES3_LIB_SRCPATH_ANDROID)/.
+else ifeq ($(OMAPES),5.x)
+	@echo "building the sgx kernel modules..."
+
+	@export KERNELDIR=$(KERNEL_INSTALL_DIR) && \
+		export PATH=$(CSTOOL_PATH):$(PATH) && \
+		export CROSS_COMPILE=$(CSTOOL_PREFIX) && \
+		export EURASIAROOT=$(EURASIAROOT) && \
+		export ANDROID_ROOT=$(ANDROID_ROOT) && \
+		export ARCH=arm && \
+		make -C $(GFX_KERNMOD_SRCPATH)/eurasiacon/build/linux2/omap_android KERNELDIR=$(KERNEL_INSTALL_DIR) TARGET_PRODUCT=$(TARGET_PRODUCT) SGXCORE=530 SGXCOREREV=125
+	@echo "copying the sgx kernel modules to $(GFX_REL_ES5_LIB_SRCPATH_ANDROID)"
+	@cp -rf $(GFX_KERNMOD_SRCPATH)/eurasiacon/binary2_omap_android_release/target/pvrsrvkm.ko $(GFX_REL_ES5_LIB_SRCPATH_ANDROID)/.
+	@cp -rf $(GFX_KERNMOD_SRCPATH)/eurasiacon/binary2_omap_android_release/target/omaplfb.ko $(GFX_REL_ES5_LIB_SRCPATH_ANDROID)/.
+else ifeq ($(OMAPES),6.x)
+	@echo "building the sgx kernel modules..."
+
+	@export KERNELDIR=$(KERNEL_INSTALL_DIR) && \
+		export PATH=$(CSTOOL_PATH):$(PATH) && \
+		export CROSS_COMPILE=$(CSTOOL_PREFIX) && \
+		export EURASIAROOT=$(EURASIAROOT) && \
+		export ANDROID_ROOT=$(ANDROID_ROOT) && \
+		export ARCH=arm && \
+		make -C $(GFX_KERNMOD_SRCPATH)/eurasiacon/build/linux2/omap_android KERNELDIR=$(KERNEL_INSTALL_DIR) TARGET_PRODUCT=$(TARGET_PRODUCT) SGXCORE=530 SGXCOREREV=125
+	@echo "copying the sgx kernel modules to $(GFX_REL_ES6_LIB_SRCPATH_ANDROID)"
+	@cp -rf $(GFX_KERNMOD_SRCPATH)/eurasiacon/binary2_omap_android_release/target/pvrsrvkm.ko $(GFX_REL_ES6_LIB_SRCPATH_ANDROID)/.
+	@cp -rf $(GFX_KERNMOD_SRCPATH)/eurasiacon/binary2_omap_android_release/target/omaplfb.ko $(GFX_REL_ES6_LIB_SRCPATH_ANDROID)/.
+else ifeq ($(OMAPES),7.x)
+	@echo "building the sgx kernel modules..."
+
+	@export KERNELDIR=$(KERNEL_INSTALL_DIR) && \
+		export PATH=$(CSTOOL_PATH):$(PATH) && \
+		export CROSS_COMPILE=$(CSTOOL_PREFIX) && \
+		export EURASIAROOT=$(EURASIAROOT) && \
+		export ANDROID_ROOT=$(ANDROID_ROOT) && \
+		export ARCH=arm && \
+		make -C $(GFX_KERNMOD_SRCPATH)/eurasiacon/build/linux2/omap_android KERNELDIR=$(KERNEL_INSTALL_DIR) TARGET_PRODUCT=$(TARGET_PRODUCT) SGXCORE=540 SGXCOREREV=120
+	@echo "copying the sgx kernel modules to $(GFX_REL_ES7_LIB_SRCPATH_ANDROID)"
+	@cp -rf $(GFX_KERNMOD_SRCPATH)/eurasiacon/binary2_omap_android_release/target/pvrsrvkm.ko $(GFX_REL_ES7_LIB_SRCPATH_ANDROID)/.
+	@cp -rf $(GFX_KERNMOD_SRCPATH)/eurasiacon/binary2_omap_android_release/target/omaplfb.ko $(GFX_REL_ES7_LIB_SRCPATH_ANDROID)/.
+else
+	@echo "OMAPES value not specified (Mandatory value)"
+	exit 1
+endif
+
+############################### CLEAN ##################################
+clean_km: cleankernelmodule cleandevmem2
+
+builddevmem2:
+	@echo "building devmem2..."
+	make -C $(GFX_DEVMEM2_SRCPATH) && make -C $(GFX_DEVMEM2_SRCPATH) install
+
+cleandevmem2:
+	 make -C $(GFX_DEVMEM2_SRCPATH) clean
+
+cleankernelmodule:
+ifeq ($(OMAPES),7.x)
+	@echo "cleaning the sgx kernel modules..."
+	export KERNELDIR=$(KERNEL_INSTALL_DIR) && \
+		export PATH=$(CSTOOL_PATH):$(PATH) && \
+		export CROSS_COMPILE=$(CSTOOL_PREFIX) && \
+		export EURASIAROOT=$(EURASIAROOT) && \
+		export DISCIMAGE=$(ANDROID_DISCIMAGE) && \
+		export ANDROID_ROOT=$(ANDROID_ROOT) && \
+		make -C $(GFX_KERNMOD_SRCPATH)/eurasiacon/build/linux2/omap_android KERNELDIR=$(KERNEL_INSTALL_DIR) TARGET_PRODUCT=$(TARGET_PRODUCT) SGXCORE=540 SGXCOREREV=120 clean
+else
+	@echo "cleaning the sgx kernel modules..."
+	export KERNELDIR=$(KERNEL_INSTALL_DIR) && \
+		export PATH=$(CSTOOL_PATH):$(PATH) && \
+		export CROSS_COMPILE=$(CSTOOL_PREFIX) && \
+		export EURASIAROOT=$(EURASIAROOT) && \
+		export DISCIMAGE=$(ANDROID_DISCIMAGE) && \
+		export ANDROID_ROOT=$(ANDROID_ROOT) && \
+		make -C $(GFX_KERNMOD_SRCPATH)/eurasiacon/build/linux2/omap_android KERNELDIR=$(KERNEL_INSTALL_DIR) TARGET_PRODUCT=$(TARGET_PRODUCT) SGXCORE=530 SGXCOREREV=125 clean
+endif
+############################# INSTALL ##################################
+
+install_km:
+
+ifeq ($(OMAPES),INVALIDVAL)
+	@echo "OMAPES value not specified (Mandatory value)..Exiting..."
+	exit 1
+endif
+ 
+#	@patch -p0 -d $(ANDROID_DISCIMAGE) < initrc.patch
+ifeq ($(OMAPES),3.x)
+	@cd $(GFX_REL_ES3_LIB_SRCPATH_ANDROID) && \
+	export DISCIMAGE=$(ANDROID_DISCIMAGE) && \
+	export ANDROID_ROOT=$(ANDROID_ROOT) && \
+	export ANDROID_PRODUCT=$(TARGET_PRODUCT) && \
+	./install.sh --no-x --no-bcdevice
+endif
+ifeq ($(OMAPES),5.x)
+	@cd $(GFX_REL_ES5_LIB_SRCPATH_ANDROID) && \
+	export DISCIMAGE=$(ANDROID_DISCIMAGE) && \
+	export ANDROID_ROOT=$(ANDROID_ROOT) && \
+	export ANDROID_PRODUCT=$(TARGET_PRODUCT) && \
+	./install.sh --no-x --no-bcdevice
+endif
+ifeq ($(OMAPES),6.x)
+	@cd $(GFX_REL_ES6_LIB_SRCPATH_ANDROID) && \
+	export DISCIMAGE=$(ANDROID_DISCIMAGE) && \
+	export ANDROID_ROOT=$(ANDROID_ROOT) && \
+	export ANDROID_PRODUCT=$(TARGET_PRODUCT) && \
+	./install.sh --no-x --no-bcdevice
+endif
+ifeq ($(OMAPES),7.x)
+	@cd $(GFX_REL_ES7_LIB_SRCPATH_ANDROID) && \
+	export DISCIMAGE=$(ANDROID_DISCIMAGE) && \
+	export ANDROID_ROOT=$(ANDROID_ROOT) && \
+	export ANDROID_PRODUCT=$(TARGET_PRODUCT) && \
+	./install.sh --no-x --no-bcdevice
+endif
+############################# HELP ##################################
+
+help_km:
+	@echo ""
+	@echo "Usage (for build): make"
+	@echo "Usage (for install): make install OMAPES={5.x | 6.x}"
+	@echo "See online Graphics Getting Started Guide for further details."
+	@echo ""
+
+###########################################################################
