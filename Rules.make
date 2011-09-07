@@ -18,11 +18,9 @@ CSTOOL_PATH=$(CSTOOL_DIR)/bin
 CSTOOL_LIBSTDC++_PATH=$(CSTOOL_DIR)/arm-none-linux-gnueabi/libc/usr/lib
 
 #set the kernel installation path
-#KERNEL_INSTALL_DIR=$(ANDROID_ROOT_DIR)/kernel
-KERNEL_INSTALL_DIR=/home1/aditya/SA/kernel_fix/kernel
+KERNEL_INSTALL_DIR=$(ANDROID_ROOT_DIR)/kernel
 #set filesystem path
-#TARGETFS_INSTALL_DIR=$(ANDROID_ROOT_DIR)/out/target/product/$(TARGET_PRODUCT)
-TARGETFS_INSTALL_DIR=/home1/aditya/android/android_rootfs_cent
+TARGETFS_INSTALL_DIR=$(ANDROID_ROOT_DIR)/out/target/product/$(TARGET_PRODUCT)
 
 #Android 
 ANDROID_DISCIMAGE=$(TARGETFS_INSTALL_DIR)/
