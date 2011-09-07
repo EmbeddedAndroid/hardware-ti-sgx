@@ -5,9 +5,9 @@
 # under the terms and conditions of the GNU General Public License,
 # version 2, as published by the Free Software Foundation.
 # 
-# This program is distributed in the hope it will be useful but, except
-# as otherwise stated in writing, without any warranty; without even the
-# implied warranty of merchantability or fitness for a particular purpose.
+# This program is distributed in the hope it will be useful but, except 
+# as otherwise stated in writing, without any warranty; without even the 
+# implied warranty of merchantability or fitness for a particular purpose. 
 # See the GNU General Public License for more details.
 # 
 # You should have received a copy of the GNU General Public License along with
@@ -19,8 +19,8 @@
 #
 # Contact Information:
 # Imagination Technologies Ltd. <gpl-support@imgtec.com>
-# Home Park Estate, Kings Langley, Herts, WD4 8LZ, UK
-#
+# Home Park Estate, Kings Langley, Herts, WD4 8LZ, UK 
+# 
 #
 
 TARGET_PRODUCT ?= blaze
@@ -36,6 +36,12 @@ ifeq ($(OMAPES),3.x)
 PVR_SYSTEM := omap3
 SGXCORE := 530
 SGX_CORE_REV := 121
+endif
+
+ifeq ($(OMAPES),4.x)
+PVR_SYSTEM := ti335x
+SGXCORE := 530
+SGX_CORE_REV := 125
 endif
 
 ifeq ($(OMAPES),5.x)
@@ -79,10 +85,18 @@ SUPPORT_LINUX_USING_WORKQUEUES := 0
 SUPPORT_LINUX_USING_SHARED_WORKQUEUES := 1
 SUPPORT_ACTIVE_POWER_MANAGEMENT := 0
 DISPLAY_CONTROLLER := omaplfb
+ifeq ($(OMAPES),4.x)
+DISPLAY_CONTROLLER_COMPONENT := dc_ti335x_linux 
+else
 DISPLAY_CONTROLLER_COMPONENT := dc_omapfb3_linux 
+endif
 OMAP_NON_FLIP_DISPLAY := 1
 else
+ifeq ($(OMAPES),4.x)
+DISPLAY_CONTROLLER_COMPONENT := dc_ti335x_linux 
+else
 DISPLAY_CONTROLLER_COMPONENT := dc_omapfb3_linux
+endif
 endif
 
 ifeq ($(SUPPORT_DRI_DRM),1)

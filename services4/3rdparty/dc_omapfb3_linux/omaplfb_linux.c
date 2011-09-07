@@ -71,10 +71,13 @@
 #endif
 
 #if defined PLAT_TI81xx
-#include <../drivers/video/ti81xx/ti81xxfb/fbpriv.h>
+#include <linux/ti81xxfb.h> 
+#include <plat/ti81xx-vpss.h>
 #else
-#include <omapfb/omapfb.h>
+#include <linux/omapfb.h>
 #endif
+
+#include <omapfb/omapfb.h>
 
 #if defined(DEBUG)
 #undef DEBUG
@@ -365,12 +368,30 @@ OMAPLFB_BOOL OMAPLFBSetUpdateMode(OMAPLFB_DEVINFO *psDevInfo, OMAPLFB_UPDATE_MOD
 OMAPLFB_BOOL OMAPLFBWaitForVSync(OMAPLFB_DEVINFO *psDevInfo)
 {
 #if defined PLAT_TI81xx
-	struct vps_grpx_ctrl *gctrl;
-	int r = 0;
-	struct ti81xxfb_info *ofbi;
-	ofbi = FB2TFB(psDevInfo->psLINFBInfo);
-	gctrl = ofbi->gctrl;
-	r = gctrl->wait_for_vsync(gctrl);
+      int r;
+      void grpx_irq_wait_handler(void *data)
+
+      {
+          complete((struct completion *)data);
+      }
+
+      DECLARE_COMPLETION_ONSTACK(completion);
+
+      if (vps_grpx_register_isr((vsync_callback_t)grpx_irq_wait_handler, &completion, psDevInfo->uiFBDevID) != 0)
+      {
+          printk (KERN_WARNING DRIVER_PREFIX ": Failed to register for vsync call back\n");
+          return OMAPLFB_FALSE;
+      }
+
+//    timeout = wait_for_completion_interruptible_timeout(&completion, timeout);
+
+      r = wait_for_completion_interruptible(&completion);
+
+      if (vps_grpx_unregister_isr((vsync_callback_t)grpx_irq_wait_handler , &completion, psDevInfo->uiFBDevID) != 0)
+      {
+          printk (KERN_WARNING DRIVER_PREFIX ": Failed to un-register for vsync call back\n");
+          return OMAPLFB_FALSE;
+      }
 	return OMAPLFB_TRUE;
 #else
 	struct omap_dss_device *psDSSDev = fb2display(psDevInfo->psLINFBInfo);

@@ -27,12 +27,14 @@
 #include "services_headers.h"
 #include "resman.h"
 
+#include <linux/version.h>
 #ifdef __linux__
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(2,6,38))
 #ifndef AUTOCONF_INCLUDED
  #include <linux/config.h>
 #endif
+#endif
 
-#include <linux/version.h>
 #include <linux/sched.h>
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,9)
 #include <linux/hardirq.h>

@@ -1,13 +1,13 @@
+
 SGX Embedded Systems DDK for Linux kernel.
 Copyright (C) Imagination Technologies Ltd. All rights reserved.
 ======================================================================
 
 
-About
+About 
 -------------------------------------------
 
-This is the Imagination Technologies SGX DDK for the Linux kernel.
-Modified by the Texas Instruments to support Android on Rowboat devices.
+This is the Imagination Technologies SGX DDK for the Linux kernel. 
 
 
 License
@@ -16,48 +16,33 @@ License
 You may use, distribute and copy this software under the terms of
 GNU General Public License version 2.
 
-The full GNU General Public License version 2 is included in this
+The full GNU General Public License version 2 is included in this 
 distribution in the file called "COPYING".
 
 
 Build and Install Instructions
 -------------------------------------------
 
-1) Edit Rules.make file and set appropriate paths
+For details see the "INSTALL" file.
 
-2)  Build SDK Using -
-     $ make OMAPES=X.x (see make help for more info)
+To build for, change to the appropriate target directory, e.g.:
+$ cd eurasiacon/build/linux/platform/kbuild
 
-     Ex:
+Issue the make command:
+$ make BUILD=debug all
 
-	$ make help
+The DDK software must be installed by the root user.  Become the root user:
+$ su
 
-	Usage (for build): make BUILD={debug | release} OMAPES={5.x | 6.x}
-	      Platform                                   OMAPES
-	      --------                                   ------
-	      AM35x                                       3.x
-	      OMAP37x/AM37x                               5.x
-	      816x(389x)/814x(387x)                       6.x
-	      OMAP4/AM45x                                 7.x
-	--> Specifying OMAPES is mandatory. BUILD=release by default
+Install the DDK software:
+$ make install
 
-	Usage (for install): make BUILD=(debug | release} OMAPES={3.x | 5.x | 6.x | 7.x} install
-	--> See online Graphics Getting Started Guide for further details.
+Become an ordinary user again:
+$ exit
 
-
-4) Install the SDK into File system using:
-     $ sudo make OMAPES=X.x install
-
-(This copies the *.so and *.ko to file system pointed to by TARGETFS_INSTALL_DIR variable).
-
-
-Note: In Case of AM389x platforms Syslink and VPSS modules need to be built.
-
-For more details please refer-  http://processors.wiki.ti.com/index.php/ANDROID_RN_4_03_01_00
 
 Contact information:
 -------------------------------------------
 
-http://arowboat.org/
-http://groups.google.com/group/rowboat
-http://e2e.ti.com/android
+Imagination Technologies Ltd. <gpl-support@imgtec.com>
+Home Park Estate, Kings Langley, Herts, WD4 8LZ, UK 
